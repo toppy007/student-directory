@@ -13,8 +13,5 @@ puts "Freddy Krueger"
 puts "The Joker"
 puts "Joffrey Baratheon"
 puts "Norman Bates"
-print "Overall, we have "
-# firstly we printed the total number of students.
-print student_count
-# its important that print() doesnt print on a new line.
-puts " great students"
+# overall good student refactored 
+puts "Overall, we have #{student_count} great students"
