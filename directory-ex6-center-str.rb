@@ -27,9 +27,9 @@ end
 
 def print(students)
   students.each do |i|
-    if i[:name].length < 12
-      puts "#{i[:name]} (#{i[:cohort]} cohort)"
-    end
+    center = "#{i[:name]} (#{i[:cohort]} cohort)"
+    a = center.center(40)
+    puts a
   end
 end
 
