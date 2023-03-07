@@ -1,3 +1,5 @@
+# 1. Setting up your environment
+
 # Array of students
 def input_students
   puts "Please enter the names of the students"
