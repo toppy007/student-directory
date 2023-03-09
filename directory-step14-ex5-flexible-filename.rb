@@ -3,9 +3,10 @@
 def try_load_students
   filename = ARGV.first # first argument from the command line
   return if filename.nil? # get out of the method if it isn't given
+
   if File.exist?(filename) # if it exists
     load_students(filename)
-     puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
@@ -15,14 +16,14 @@ end
 # students input
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts 'Please enter the names of the students'
+  puts 'To finish, just hit return twice'
   # get input
   name = STDIN.gets.chomp
   # while name is empty run while command
-  while !name.empty? do
+  until name.empty?
     # hash name into students array
-    @students << {name: name, cohort: :november}
+    @students << { name: name, cohort: :november }
     # code to show latest student count
     puts "Now we have #{@students.count} students"
     # get another name from the user
@@ -30,17 +31,17 @@ def input_students
   end
   @students
 end
-            
+
 # print them with .each in i elements of student array
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts 'The students of Villains Academy'
+  puts '-------------'
 end
 
 # printing students name
 
-def print(students)
+def print(_students)
   @students.each do |i|
     puts "#{i[:name]} (#{i[:cohort]} cohort)"
   end
@@ -60,15 +61,21 @@ def print_directory(students)
   print_footer(students)
 end
 
+# Input filenames method for load & save
+def file_load_save
+  puts "Please enter the filename"
+  @file_name = STDIN.gets.chomp
+end 
+
 # save students to CSV
 
 def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w")
+  file_load_save
+  file = File.open(@file_name, 'w')
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
+    csv_line = student_data.join(',')
     file.puts csv_line
   end
   file.close
@@ -76,41 +83,52 @@ end
 
 # load from CSV read only
 
-def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
+def load_students
+  file_load_save
+  file = File.open(@file_name)
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    name, cohort = line.chomp.split(',')
+    @students << { name: name, cohort: cohort.to_sym }
   end
   file.close
+end
+
+# Implement feedback messages
+
+def feedback
+  if !@feedback.nil? == true
+    puts "Process #{@feedback} completed"
+  else
+  end 
 end
 
 # print menu
 
 def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "3. Save students list to file"
-  puts "4. load students list from file"
-  puts "9. Exit" # 9 because we'll be adding more items  
+  puts '1. Input the students'
+  puts '2. Show the students'
+  puts '3. Save students list to file'
+  puts '4. load students list from file'
+  puts '9. Exit' # 9 because we'll be adding more items
 end
 
 # do what the user has asked
 
 def process(selection)
+  @feedback = selection
   case selection
-    when "1"
-      input_students
-    when "2"
-      print_directory(@students)
-    when "3"
-      save_students
-    when "4"
-      load_students
-    when "9"
-      exit
-    else
-      puts "I don't know what you mean, try again"
+  when '1'
+    input_students
+  when '2'
+    print_directory(@students)
+  when '3'
+    save_students
+  when '4'
+    load_students
+  when '9'
+    exit
+  else
+    puts "I don't know what you mean, try again"
   end
 end
 
@@ -119,6 +137,7 @@ end
 def interactive_menu
   loop do
     print_menu
+    feedback
     process(STDIN.gets.chomp)
   end
 end
